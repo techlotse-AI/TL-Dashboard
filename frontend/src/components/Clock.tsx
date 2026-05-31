@@ -25,7 +25,7 @@ export default function Clock({ config, scale = 1, onSettingsOpen }: Props) {
   const dateStr = format(zoned, 'EEEE, d MMMM yyyy', { timeZone: tz });
 
   return (
-    <div className="flex flex-col items-end select-none w-full" style={{ zoom: scale }}>
+    <div className="flex flex-col items-end select-none w-full" style={{ transform: `scale(${scale})`, transformOrigin: 'top right', width: `${100 / scale}%` }}>
       {/* Time */}
       <div className="flex items-baseline gap-1">
         <span className="text-7xl font-light tabular-nums tracking-tight leading-none text-white">

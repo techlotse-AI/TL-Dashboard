@@ -67,7 +67,8 @@ const frontendDist = path.resolve(__dirname, '../public');
 app.use(express.static(frontendDist, { maxAge: '1y', immutable: true, index: false }));
 
 // SPA fallback — any unmatched GET returns index.html
-app.get('*', (_req, res) => {
+// Express v5 requires an explicit path parameter (wildcard '*' alone is deprecated)
+app.get('/{*path}', (_req, res) => {
   res.sendFile(path.join(frontendDist, 'index.html'));
 });
 
