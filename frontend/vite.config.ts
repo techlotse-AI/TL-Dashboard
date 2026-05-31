@@ -19,9 +19,17 @@ export default defineConfig({
     sourcemap: false,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          utils: ['date-fns', 'date-fns-tz', 'lucide-react'],
+        // Vite 8 uses Rolldown which requires manualChunks as a function
+        manualChunks(id) {
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+            return 'vendor';
+          }
+          if (
+            id.includes('node_modules/date-fns') ||
+            id.includes('node_modules/lucide-react')
+          ) {
+            return 'utils';
+          }
         },
       },
     },
