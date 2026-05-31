@@ -43,13 +43,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: |
-            backend/package-lock.json
-            frontend/package-lock.json
 
       - name: Install backend deps
-        run: npm ci
+        run: npm install --ignore-scripts
         working-directory: backend
 
       - name: Lint backend
@@ -61,7 +57,7 @@ jobs:
         working-directory: backend
 
       - name: Install frontend deps
-        run: npm ci
+        run: npm install --ignore-scripts
         working-directory: frontend
 
       - name: Lint frontend
