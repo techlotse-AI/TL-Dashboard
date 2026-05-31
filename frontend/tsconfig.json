@@ -15,7 +15,8 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "allowArbitraryExtensions": true
+    "allowArbitraryExtensions": true,
+    "noUncheckedSideEffectImports": false
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
