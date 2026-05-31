@@ -61,8 +61,13 @@ async function fetchFromIcal(url: string): Promise<CalendarEvent[]> {
   const events: CalendarEvent[] = [];
 
   for (const key of Object.keys(parsed)) {
-    const ev = parsed[key];
-    if (ev.type !== 'VEVENT') continue;
+    const component = parsed[key];
+    // CalendarResponse values can be undefined (vcalendar key) or VCalendar
+    if (!component || component.type !== 'VEVENT') continue;
+
+    // Cast to VEvent after the type guard — node-ical's CalendarComponent union
+    // includes VCalendar which lacks start/end/summary, so we narrow explicitly.
+    const ev = component as ical.VEvent;
 
     // node-ical puts Date objects directly on start/end
     const startRaw = ev.start as unknown as Date | string | undefined;
@@ -79,14 +84,14 @@ async function fetchFromIcal(url: string): Promise<CalendarEvent[]> {
     if (startDate > maxDate) continue;
 
     // Detect all-day: node-ical sets datetype = 'date' for all-day events
-    const allDay = (ev as any).datetype === 'date' || (
+    const allDay = (ev as unknown as Record<string, unknown>).datetype === 'date' || (
       startDate.getHours() === 0 && startDate.getMinutes() === 0 &&
       startDate.getSeconds() === 0 && startDate.getMilliseconds() === 0 &&
       typeof startRaw === 'string' && !startRaw.includes('T')
     );
 
     events.push({
-      id: (ev as any).uid ?? key,
+      id: ev.uid ?? key,
       title: (ev.summary as string | undefined) ?? '(no title)',
       start: startDate.toISOString(),
       end: endDate.toISOString(),
