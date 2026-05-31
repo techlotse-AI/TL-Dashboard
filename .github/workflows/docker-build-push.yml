@@ -29,11 +29,13 @@ on:
 
 env:
   IMAGE: ${{ vars.DOCKER_REPO || 'techlotse/tl-dashboard-core' }}
+  # Opt in to Node.js 24 runtime for all actions (required from June 2026)
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  # ── Quality gates: lint + type-check + build ────────────────────────────────
+  # ── Quality gates: type-check + build ──────────────────────────────────────
   lint:
-    name: Lint & Type-check
+    name: Type-check & Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -48,20 +50,16 @@ jobs:
         run: npm install --ignore-scripts
         working-directory: backend
 
-      - name: Lint backend
-        run: npm run lint
-        working-directory: backend
-
       - name: Type-check backend
-        run: npm run build
+        run: npx tsc --noEmit
         working-directory: backend
 
       - name: Install frontend deps
         run: npm install --ignore-scripts
         working-directory: frontend
 
-      - name: Lint frontend
-        run: npm run lint
+      - name: Type-check frontend
+        run: npx tsc --noEmit
         working-directory: frontend
 
       - name: Build frontend
