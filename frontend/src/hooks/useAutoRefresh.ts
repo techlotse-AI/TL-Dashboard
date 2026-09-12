@@ -25,7 +25,15 @@ export function useAutoRefresh<T>(
 
     try {
       const res = await fetch(url, { signal: controller.signal });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        // Try to extract a message from the error body, fall back to HTTP status
+        let detail = `HTTP ${res.status}`;
+        try {
+          const body = await res.json();
+          if (body?.error) detail = body.error;
+        } catch { /* ignore parse failure */ }
+        throw new Error(detail);
+      }
       const data: T = await res.json();
       setState({ status: 'success', data });
     } catch (err: unknown) {

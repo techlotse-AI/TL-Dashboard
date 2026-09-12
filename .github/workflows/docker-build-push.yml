@@ -1,13 +1,13 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# CI — Build and push TL-Dashboard Docker image to DockerHub
+# CI — Lint, type-check, build, and push TL-Dashboard Docker image to DockerHub
 #
 # Triggers:
-#   - Push to main branch
-#   - Push of any version tag (v*.*.*)
+#   - Push to any branch
+#   - Push of any version tags (v*.*.*)
 #   - Pull requests against main (build only — no push)
 #
 # Required GitHub organisation variables (Settings → Variables → Organisation):
-#   DOCKER_REPO   — DockerHub image name, e.g. techlotse/tl-dashboard-core
+#   DOCKER_REPO   — DockerHub image name, e.g. techlotse/tl-dashboard
 #
 # Required GitHub organisation secrets (Settings → Secrets → Organisation):
 #   ORG_DOCKERHUB_USER   — DockerHub username
@@ -15,12 +15,12 @@
 #                          Create at: https://hub.docker.com/settings/security
 # ─────────────────────────────────────────────────────────────────────────────
 
-name: Build & Push to DockerHub
+name: CI
 
 on:
   push:
     branches:
-      - main
+      - '**'
     tags:
       - 'v*.*.*'
   pull_request:
@@ -28,14 +28,49 @@ on:
       - main
 
 env:
-  IMAGE: ${{ vars.DOCKER_REPO || 'techlotse/tl-dashboard-core' }}
+  IMAGE: ${{ vars.DOCKER_REPO || 'techlotse/tl-dashboard' }}
   # Opt in to Node.js 24 runtime for all actions (required from June 2026)
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
+  # ── Quality gates: type-check + build ──────────────────────────────────────
+  lint:
+    name: Type-check & Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install backend deps
+        run: npm ci --ignore-scripts
+        working-directory: backend
+
+      - name: Type-check backend
+        run: npx tsc --noEmit
+        working-directory: backend
+
+      - name: Install frontend deps
+        run: npm ci --ignore-scripts
+        working-directory: frontend
+
+      - name: Type-check frontend
+        run: npx tsc --noEmit
+        working-directory: frontend
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: frontend
+
+  # ── Docker build & push ─────────────────────────────────────────────────────
   build:
     name: Build & Push
     runs-on: ubuntu-latest
+    needs: lint
     permissions:
       contents: read
 
@@ -80,10 +115,11 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  # Lightweight smoke-test on PRs (no push, no secrets needed)
+  # ── Compose syntax validation ───────────────────────────────────────────────
   validate:
     name: Validate Compose
     runs-on: ubuntu-latest
+    needs: lint
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -14,6 +14,7 @@ const FC_COLORS: Record<string, string> = {
   MVFR: 'text-blue-400   bg-blue-400/10   border-blue-400/30',
   IFR:  'text-red-400    bg-red-400/10    border-red-400/30',
   LIFR: 'text-purple-400 bg-purple-400/10 border-purple-400/30',
+  UNKN: 'text-white/40   bg-white/5       border-white/20',
 };
 
 function windStr(d: MetarData): string {
@@ -54,7 +55,7 @@ function Skeleton() {
 
 export default function MetarWidget({ state, scale = 1, onSettingsOpen }: Props) {
   return (
-    <div className="panel p-4 flex flex-col gap-2.5" style={{ zoom: scale }}>
+    <div className="panel p-4 flex flex-col gap-2.5" style={{ transform: `scale(${scale})`, transformOrigin: 'top left', width: `${100 / scale}%` }}>
       {/* Header */}
       <div className="flex items-center gap-1.5">
         <PlaneTakeoff size={12} strokeWidth={2} className="text-white/40" />
@@ -81,7 +82,7 @@ export default function MetarWidget({ state, scale = 1, onSettingsOpen }: Props)
         </div>
       ) : (() => {
         const d = state.data;
-        const fcClass = FC_COLORS[d.flightCategory] ?? FC_COLORS.VFR;
+        const fcClass = FC_COLORS[d.flightCategory] ?? FC_COLORS.UNKN;
         return (
           <>
             {/* Station + category + time */}

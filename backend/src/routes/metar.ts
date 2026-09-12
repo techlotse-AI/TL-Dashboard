@@ -7,7 +7,18 @@ const router = Router();
 
 /** GET /api/metar — fetch decoded METAR for the configured (or query-param) ICAO */
 router.get('/', async (req: Request, res: Response) => {
-  const icao = (req.query.icao as string) || getEffectiveConfig().metarIcao;
+  const icao = ((req.query.icao as string) || getEffectiveConfig().metarIcao || '').trim();
+
+  if (!icao) {
+    res.status(400).json({ error: 'No ICAO code configured. Set METAR_ICAO or configure it in Settings.' });
+    return;
+  }
+
+  if (!/^[A-Za-z0-9]{3,4}$/.test(icao)) {
+    res.status(400).json({ error: `Invalid ICAO code: "${icao}". Must be 3–4 alphanumeric characters.` });
+    return;
+  }
+
   try {
     const data = await fetchMetar(icao);
     res.json(data);

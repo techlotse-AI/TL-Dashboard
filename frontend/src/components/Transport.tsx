@@ -173,7 +173,7 @@ function Skeleton() {
 
 export default function Transport({ state, scale = 1, onSettingsOpen }: Props) {
   return (
-    <div className="panel p-4 h-full flex flex-col gap-3" style={{ zoom: scale }}>
+    <div className="panel p-4 h-full flex flex-col gap-3" style={{ transform: `scale(${scale})`, transformOrigin: 'top left', width: `${100 / scale}%` }}>
       <div className="flex items-center gap-1.5">
         <h2 className="text-xs font-semibold uppercase tracking-widest text-white/40 flex items-center gap-1.5 flex-1">
           <Route size={12} strokeWidth={2} />

@@ -81,7 +81,9 @@ function parseResponse(data: unknown, icao: string): MetarData {
     altim:          typeof r.altim  === 'number' ? Math.round(r.altim) : null,
     wx:             r.wxString      ?? null,
     skyConditions,
-    flightCategory: r.fltCat        ?? 'VFR',
+    flightCategory: (r.fltCat && typeof r.fltCat === 'string' && r.fltCat.trim())
+                      ? r.fltCat.trim().toUpperCase()
+                      : 'UNKN',
     fetchedAt:      new Date().toISOString(),
   };
 }
