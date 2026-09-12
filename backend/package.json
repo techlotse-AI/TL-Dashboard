@@ -1,6 +1,6 @@
 {
   "name": "tl-dashboard-backend",
-  "version": "0.3.3",
+  "version": "0.5.0",
   "description": "Family Dashboard — Express API backend",
   "main": "dist/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "axios": "^1.16.1",
+    "axios": "^1.20.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
@@ -21,9 +21,9 @@
     "winston": "^3.19.0"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.3",
-    "@types/node": "^22.15.29",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.20.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^6.0.3"
   }

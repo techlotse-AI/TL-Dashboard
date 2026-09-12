@@ -15,9 +15,9 @@ Browser
 
 The Docker image is built in three stages:
 
-1. **frontend-build** — `node:20-alpine`, runs `vite build`, produces `dist/`
-2. **backend-build** — `node:20-alpine`, runs `tsc`, produces `dist/`
-3. **runtime** — `node:20-alpine`, copies backend `dist/` → `/app/dist`, frontend `dist/` → `/app/public`, production `node_modules` only
+1. **frontend-build** — `node:22-alpine`, runs `vite build`, produces `dist/`
+2. **backend-build** — `node:22-alpine`, runs `tsc`, produces `dist/`
+3. **runtime** — `node:22-alpine`, copies backend `dist/` → `/app/dist`, frontend `dist/` → `/app/public`, production `node_modules` only
 
 ---
 
