@@ -154,7 +154,7 @@ The workflow at `.github/workflows/docker-build-push.yml` runs on every push to 
 It builds multi-arch images (`linux/amd64` + `linux/arm64`) and pushes to DockerHub.
 
 **Required GitHub organisation variables:**
-- `DOCKER_REPO` — DockerHub image base name (e.g. `techlotse/tl-dashboard-core`)
+- `DOCKER_REPO` — DockerHub image base name (e.g. `techlotse/tl-dashboard`)
 
 **Required GitHub organisation secrets:**
 - `DOCKERHUB_USERNAME` — DockerHub username

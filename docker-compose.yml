@@ -15,7 +15,13 @@ name: tl-dashboard
 
 services:
   dashboard:
-    image: techlotse/tl-dashboard-core:latest
+    # NOTE: renamed from techlotse/tl-dashboard-core in v0.5.0 (repo moved to
+    # techlotse-AI/TL-Dashboard). This image does NOT exist on DockerHub until
+    # CI publishes it successfully at least once -- the Build & Push job is
+    # currently failing at DockerHub login because the org-level secrets still
+    # live under the old "techlotse" org. Do NOT `docker compose pull` on the
+    # production host until that first publish has succeeded.
+    image: techlotse/tl-dashboard:latest
     restart: unless-stopped
     ports:
       # Dashboard available at http://localhost:18181

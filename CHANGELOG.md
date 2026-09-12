@@ -20,6 +20,7 @@ refresh onto current majors, and a reproducible, gated build pipeline.
 - **Dependencies refreshed onto current majors** — Express 4 → 5, React 18 → 19, Vite 5 → 8 (Rolldown), Tailwind 3 → 4, TypeScript 5 → 6, date-fns 3 → 4, googleapis 140 → 173, node-ical 0.19 → 0.26, axios 1.7 → 1.20. `npm audit` reports 0 vulnerabilities on both workspaces.
 - **Tailwind v4 migration** — `tailwind.config.js` values moved to `@theme {}` in `index.css`; PostCSS now uses `@tailwindcss/postcss`.
 - **Docker base image** node:20-alpine → node:22-alpine. Build stages pin `--platform=$BUILDPLATFORM` so multi-arch builds compile natively instead of under QEMU emulation.
+- **Repo and image renamed.** The GitHub repo had already moved to `techlotse-AI/TL-Dashboard`; all URLs, badges and clone instructions now point there. The Docker image is renamed `techlotse/tl-dashboard-core` → `techlotse/tl-dashboard` (DockerHub org unchanged). **The new image is not published yet** — `Build & Push` fails at DockerHub login because the org-level secrets stayed under the old `techlotse` org. Do not `docker compose pull` on the production host until that is fixed and one publish succeeds.
 
 ### Added
 - **Lockfiles committed** (`backend/package-lock.json`, `frontend/package-lock.json`) — the repo previously had none, so every image build resolved caret ranges afresh and no two builds were guaranteed identical. Docker and CI now use `npm ci`.
@@ -146,11 +147,11 @@ refresh onto current majors, and a reproducible, gated build pipeline.
 - Multi-arch Docker images (`linux/amd64`, `linux/arm64`) via GitHub Actions.
 - Full `.env` configuration with `.env.example` template.
 
-[0.5.0]: https://github.com/techlotse/TL-Dashboard-Core/releases/tag/v0.5.0
-[0.3.3]: https://github.com/techlotse/TL-Dashboard-Core/compare/v0.3.2...v0.3.3
-[0.3.2]: https://github.com/techlotse/TL-Dashboard-Core/compare/v0.3.1...v0.3.2
-[0.3.1]: https://github.com/techlotse/TL-Dashboard-Core/compare/v0.3.0...v0.3.1
-[0.3.0]: https://github.com/techlotse/TL-Dashboard-Core/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/techlotse/TL-Dashboard-Core/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/techlotse/TL-Dashboard-Core/compare/v0.0.1...v0.1.0
-[0.0.1]: https://github.com/techlotse/TL-Dashboard-Core/releases/tag/v0.0.1
+[0.5.0]: https://github.com/techlotse-AI/TL-Dashboard/releases/tag/v0.5.0
+[0.3.3]: https://github.com/techlotse-AI/TL-Dashboard/compare/v0.3.2...v0.3.3
+[0.3.2]: https://github.com/techlotse-AI/TL-Dashboard/compare/v0.3.1...v0.3.2
+[0.3.1]: https://github.com/techlotse-AI/TL-Dashboard/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/techlotse-AI/TL-Dashboard/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/techlotse-AI/TL-Dashboard/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/techlotse-AI/TL-Dashboard/compare/v0.0.1...v0.1.0
+[0.0.1]: https://github.com/techlotse-AI/TL-Dashboard/releases/tag/v0.0.1

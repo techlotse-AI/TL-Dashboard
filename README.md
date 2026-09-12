@@ -1,8 +1,8 @@
 # TL-Dashboard
 
-[![Version](https://img.shields.io/badge/version-v0.2.0-blue)](https://github.com/techlotse/TL-Dashboard-Core/releases)
-[![Build](https://github.com/techlotse/TL-Dashboard-Core/actions/workflows/docker-build-push.yml/badge.svg)](https://github.com/techlotse/TL-Dashboard-Core/actions/workflows/docker-build-push.yml)
-[![Docker](https://img.shields.io/badge/DockerHub-techlotse%2Ftl--dashboard--core-blue?logo=docker)](https://hub.docker.com/r/techlotse/tl-dashboard-core-backend)
+[![Version](https://img.shields.io/badge/version-v0.5.0-blue)](https://github.com/techlotse-AI/TL-Dashboard/releases)
+[![Build](https://github.com/techlotse-AI/TL-Dashboard/actions/workflows/docker-build-push.yml/badge.svg)](https://github.com/techlotse-AI/TL-Dashboard/actions/workflows/docker-build-push.yml)
+[![Docker](https://img.shields.io/badge/DockerHub-techlotse%2Ftl--dashboard-blue?logo=docker)](https://hub.docker.com/r/techlotse/tl-dashboard)
 
 A self-hosted, Docker-based family home dashboard designed for a living-room wall display. Shows live weather, Swiss public transport departures, Google Calendar events, public holidays, a background photo slideshow, and a scrolling news ticker — all in one always-on screen.
 
@@ -13,8 +13,8 @@ A self-hosted, Docker-based family home dashboard designed for a living-room wal
 ### 1. Clone and configure
 
 ```bash
-git clone https://github.com/techlotse/TL-Dashboard-Core.git
-cd TL-Dashboard-Core
+git clone https://github.com/techlotse-AI/TL-Dashboard.git
+cd TL-Dashboard
 cp .env.example .env
 ```
 
@@ -25,7 +25,7 @@ Open `.env` in a text editor and fill in your values (see [Configuration](#confi
 Place `.jpg`, `.jpeg`, `.png`, or `.webp` photos in the `./backgrounds/` folder inside the project directory:
 
 ```
-TL-Dashboard-Core/
+TL-Dashboard/
 └── backgrounds/
     ├── family-photo-1.jpg
     ├── holiday-2024.jpg
