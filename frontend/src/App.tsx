@@ -116,17 +116,16 @@ export default function App() {
       {/*
         The grid is orientation-aware (see `.dash-grid` in index.css):
 
-        Portrait — 1080×1920 wall display        Landscape — 1920×1080 kiosk
-        ┌────────────┬────────────┐               ┌─────────┬───────────┬──────────┐
-        │  Clock     │  METAR     │               │ Weather │   SBB     │  Clock   │
-        ├────────────┴────────────┤               ├─────────┤           ├──────────┤
-        │  Weather — now · today · 3 days         │Calendar │           │ Holidays │
-        ├────────────┬────────────┤               │         │           ├──────────┤
-        │  Calendar  │  SBB       │               │         │           │  METAR   │
-        │            ├────────────┤               └─────────┴───────────┴──────────┘
-        │            │  Holidays  │               └──────── NEWS TICKER ───────────┘
-        └────────────┴────────────┘
-        └────── NEWS TICKER ──────┘
+        Landscape — 1920×1080 wall display (primary)     Portrait — 1080×1920
+        ┌──────────────────────┬──────────┐              ┌──────────┬──────────┐
+        │  Weather             │  Clock   │              │  Clock   │  METAR   │
+        │  now · today · 3 days│          │              ├──────────┴──────────┤
+        ├───────────┬──────────┼──────────┤              │  Weather            │
+        │  Calendar │  SBB     │ Holidays │              ├──────────┬──────────┤
+        │           │          ├──────────┤              │ Calendar │  SBB     │
+        │           │          │  METAR   │              │          ├──────────┤
+        └───────────┴──────────┴──────────┘              │          │ Holidays │
+        └────────── NEWS TICKER ──────────┘              └──────────┴──────────┘
 
         Each cell is a named grid area; widgets fill their cell with `h-full`.
         Per-widget scale uses CSS `zoom`, so bigger content never overflows the cell.

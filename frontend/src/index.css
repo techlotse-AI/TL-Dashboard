@@ -153,19 +153,21 @@
   .clock-align { align-items: flex-start; }
 }
 
-/* Landscape — the original 3-column kiosk layout for 1920×1080 and wider. */
+/* Landscape — the 1920×1080 wall display (primary target). Full width, three
+   columns weighted towards Calendar. Weather spans the two left columns as a
+   header row so its hourly strip runs wide; Clock sits beside it. Calendar and
+   SBB take the full remaining height; Holidays + METAR stack on the right. */
 @media (orientation: landscape) {
+  :root {
+    --dash-gap: clamp(10px, 1.25vw, 40px);
+  }
   .dash-grid {
     max-width: 1800px;
     margin: 0 auto;
-    justify-content: center;
-    grid-template-columns: minmax(260px, 330px) minmax(420px, 560px) minmax(300px, 370px);
-    /* Weather spans two rows so the Clock row is sized by the Clock alone and
-       Holidays starts directly beneath it, however tall Weather gets. */
-    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 0.75fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
     grid-template-areas:
-      "weather  transport clock"
-      "weather  transport holidays"
+      "weather  weather   clock"
       "calendar transport holidays"
       "calendar transport metar";
   }

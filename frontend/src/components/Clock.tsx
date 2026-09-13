@@ -29,16 +29,16 @@ export default function Clock({ config, scale = 1, onSettingsOpen }: Props) {
     <div className="clock-align flex flex-col select-none w-full @container" style={{ zoom: scale }}>
       {/* Time */}
       <div className="flex items-baseline gap-1">
-        <span className="text-7xl @sm:text-8xl font-light tabular-nums tracking-tight leading-none text-white">
+        <span className="text-7xl @xs:text-8xl font-light tabular-nums tracking-tight leading-none text-white">
           {timeStr}
         </span>
-        <span className="text-3xl @sm:text-4xl font-light tabular-nums text-white/40 w-[2.4rem] @sm:w-[3rem]">
+        <span className="text-3xl @xs:text-4xl font-light tabular-nums text-white/40 w-[2.4rem] @xs:w-[3rem]">
           {secsStr}
         </span>
       </div>
       {/* Date + settings gear */}
       <div className="flex items-center gap-2 mt-1">
-        <div className="text-lg @sm:text-xl font-normal text-white/60 tracking-wide">
+        <div className="text-lg @xs:text-xl font-normal text-white/60 tracking-wide">
           {dateStr}
         </div>
         {onSettingsOpen && (

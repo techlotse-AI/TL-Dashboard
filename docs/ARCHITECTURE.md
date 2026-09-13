@@ -102,21 +102,22 @@ Each service module maintains a simple in-memory cache with a TTL. On cache miss
 
 ## Frontend
 
-Built with React 19 + Vite 8 + TypeScript + Tailwind CSS 4. Layout is a CSS Grid with named areas (`.dash-grid` in `index.css`), placed from `App.tsx`. The grid is **orientation-aware** — the same widgets rearrange for a portrait wall display or a landscape kiosk:
+Built with React 19 + Vite 8 + TypeScript + Tailwind CSS 4. Layout is a CSS Grid with named areas (`.dash-grid` in `index.css`), placed from `App.tsx`. The grid is **orientation-aware**. The primary target is the 1920×1080 landscape wall display; a portrait arrangement is kept for rotated screens:
 
 ```
-Portrait (1080×1920)              Landscape (1920×1080)
-┌───────────┬───────────┐         ┌─────────┬───────────┬──────────┐
-│  Clock    │  METAR    │         │ Weather │   SBB     │  Clock   │
-├───────────┴───────────┤         ├─────────┤           ├──────────┤
-│  Weather  now·today·3d│         │Calendar │           │ Holidays │
-├───────────┬───────────┤         │         │           ├──────────┤
-│ Calendar  │  SBB      │         │         │           │  METAR   │
-│           ├───────────┤         └─────────┴───────────┴──────────┘
-│           │ Holidays  │         └──────── RSS Ticker ────────────┘
-└───────────┴───────────┘
-└───── RSS Ticker ──────┘
+Landscape (1920×1080) — primary          Portrait (1080×1920)
+┌──────────────────────┬──────────┐      ┌──────────┬──────────┐
+│  Weather             │  Clock   │      │  Clock   │  METAR   │
+│  now · today · 3 days│          │      ├──────────┴──────────┤
+├───────────┬──────────┼──────────┤      │  Weather            │
+│  Calendar │  SBB     │ Holidays │      ├──────────┬──────────┤
+│           │          ├──────────┤      │ Calendar │  SBB     │
+│           │          │  METAR   │      │          ├──────────┤
+└───────────┴──────────┴──────────┘      │          │ Holidays │
+└────────── RSS Ticker ───────────┘      └──────────┴──────────┘
 ```
+
+Landscape columns are weighted 1.2 : 1 : 0.75 (Calendar : SBB : right column) across the full width (capped at 1800px).
 
 Per-widget scale (Settings → Scale) is applied with CSS `zoom`, so enlarged content grows *inside* its grid cell rather than overflowing it. The Weather and METAR panels use container queries (`@container`) to switch between a wide row layout and a stacked one depending on the cell they land in.
 
