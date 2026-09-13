@@ -47,7 +47,6 @@ TL-Dashboard-Core/
 │   │       ├── calendarService.ts
 │   │       ├── holidayService.ts
 │   │       ├── rssService.ts
-│   ├── Dockerfile
 │   └── package.json
 ├── frontend/
 │   ├── src/
@@ -67,7 +66,6 @@ TL-Dashboard-Core/
 │   │   │   └── useAutoRefresh.ts   Polling hook with exponential backoff
 │   │   └── types/
 │   │       └── index.ts            Shared TypeScript interfaces
-│   ├── Dockerfile
 │   └── package.json
 ├── docs/
 │   └── ARCHITECTURE.md            This file
@@ -151,7 +149,7 @@ It builds multi-arch images (`linux/amd64` + `linux/arm64`) and pushes to Docker
 - `DOCKER_REPO` — DockerHub image base name (e.g. `techlotse/tl-dashboard`)
 
 **Required GitHub organisation secrets:**
-- `DOCKERHUB_USERNAME` — DockerHub username
+- `DOCKERHUB_USER` — DockerHub username
 - `DOCKERHUB_TOKEN` — DockerHub access token (create at hub.docker.com/settings/security)
 
 **Tag and release:**

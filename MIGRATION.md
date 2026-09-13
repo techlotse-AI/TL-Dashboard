@@ -16,7 +16,7 @@ Brings this repo in line with the shared TL engineering standard (see
 > repo has ever had. v1.0.0 is deliberately deferred until the items below are done.
 
 ## 1. Rename (do first)
-1. ~~GitHub: rename `TL-Dashboard-Core` → `TL-Dashboard`.~~ **DONE** — and the org changed too (`techlotse` → `techlotse-AI`), which was not anticipated here. **Consequence: the org-level DockerHub secrets/vars did not follow the move, so `Build & Push` now fails at login.** Re-add `ORG_DOCKERHUB_USER`, `ORG_DOCKERHUB_KEY` and `DOCKER_REPO` under `techlotse-AI`.
+1. ~~GitHub: rename `TL-Dashboard-Core` → `TL-Dashboard`.~~ **DONE** — and the org changed too (`techlotse` → `techlotse-AI`), which was not anticipated here. **Consequence: the org-level DockerHub secrets/vars did not follow the move, so `Build & Push` failed at login until 2026-09-13.** Fixed: new secrets `DOCKERHUB_USER` / `DOCKERHUB_TOKEN` added under `techlotse-AI` and the workflow switched to them. `DOCKER_REPO` is optional — the workflow falls back to `techlotse/tl-dashboard`.
 2. Local: rename folder + `git remote set-url origin <new-url>`.
 3. ~~Image → `techlotse/tl-dashboard` (update `docker-build-push.yml`, compose files, README).~~ **DONE in v0.5.0** — except the `DOCKER_REPO` org var, which must be set under `techlotse-AI`. The image is absent from DockerHub until CI publishes once.
 

@@ -27,10 +27,11 @@ configuration UI is the standing proposal.
 2026-10-10  _(proposed — adjust as needed)_
 
 ## Outstanding / backlog
-- **BLOCKER — DockerHub publishing is down.** The repo moved org (`techlotse` →
-  `techlotse-AI`), so the org-level `ORG_DOCKERHUB_USER` / `ORG_DOCKERHUB_KEY` /
-  `DOCKER_REPO` no longer resolve and `Build & Push` fails at login. Re-add them
-  under `techlotse-AI`. **No image has published since 2026-05-31.**
+- **DockerHub publishing — secrets re-added 2026-09-13.** The repo moved org
+  (`techlotse` → `techlotse-AI`) and the old org-level secrets stayed behind, so
+  `Build & Push` failed at login from then until now. New secrets `DOCKERHUB_USER`
+  / `DOCKERHUB_TOKEN` under `techlotse-AI`; workflow switched to them. `DOCKER_REPO`
+  is optional (fallback `techlotse/tl-dashboard`).
 - **Do not `docker compose pull` on the production host** until the first
   successful publish of `techlotse/tl-dashboard` — v0.5.0 renamed the image and
   that DockerHub repo does not exist yet. Production still runs the old
