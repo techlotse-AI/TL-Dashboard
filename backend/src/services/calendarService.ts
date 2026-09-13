@@ -14,7 +14,7 @@
  *  Set GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET + GOOGLE_REFRESH_TOKEN.
  */
 import axios from 'axios';
-import ical from 'node-ical';
+import ical, { type VEvent } from 'node-ical';
 import { google } from 'googleapis';
 import fs from 'fs';
 import { config } from '../config';
@@ -67,7 +67,7 @@ async function fetchFromIcal(url: string): Promise<CalendarEvent[]> {
 
     // Cast to VEvent after the type guard — node-ical's CalendarComponent union
     // includes VCalendar which lacks start/end/summary, so we narrow explicitly.
-    const ev = component as ical.VEvent;
+    const ev = component as VEvent;
 
     // node-ical puts Date objects directly on start/end
     const startRaw = ev.start as unknown as Date | string | undefined;
