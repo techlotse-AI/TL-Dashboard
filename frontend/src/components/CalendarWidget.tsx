@@ -95,7 +95,7 @@ function Skeleton() {
 
 export default function CalendarWidget({ state, displayDays = 14, scale = 1, onSettingsOpen }: Props) {
   return (
-    <div className="panel p-4 h-full flex flex-col gap-3" style={{ transform: `scale(${scale})`, transformOrigin: 'top left', width: `${100 / scale}%` }}>
+    <div className="panel p-4 h-full flex flex-col gap-3" style={{ zoom: scale }}>
       <h2 className="text-xs font-semibold uppercase tracking-widest text-white/40 flex items-center gap-1.5">
         <Calendar size={12} strokeWidth={2} />
         Calendar
@@ -134,14 +134,14 @@ export default function CalendarWidget({ state, displayDays = 14, scale = 1, onS
                         {ev.title}
                       </div>
                       <div className="flex items-center gap-3 mt-0.5">
-                        <span className="text-xs text-white/40 flex items-center gap-0.5">
+                        <span className="text-xs text-white/40 flex items-center gap-0.5 shrink-0 whitespace-nowrap">
                           <Clock size={10} strokeWidth={1.5} />
                           {timeRange(ev)}
                         </span>
                         {ev.location && (
-                          <span className="text-xs text-white/30 flex items-center gap-0.5 truncate">
-                            <MapPin size={10} strokeWidth={1.5} />
-                            {ev.location}
+                          <span className="text-xs text-white/30 flex items-center gap-0.5 min-w-0">
+                            <MapPin size={10} strokeWidth={1.5} className="shrink-0" />
+                            <span className="truncate">{ev.location}</span>
                           </span>
                         )}
                       </div>

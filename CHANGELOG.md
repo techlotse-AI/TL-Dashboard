@@ -5,6 +5,23 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [Unreleased]
+
+### Added
+- **Weather — hourly forecast for the day.** The widget now shows a "Today" strip of nine 2‑hour slots starting from the current hour (icon, temperature, rain probability), rolling into tomorrow in the evening, plus today's high/low and sunrise/sunset. The backend returns hourly data for today *and* tomorrow (`hourly`), a `todaySummary`, and a real precipitation probability for the current hour instead of a hard-coded `0`.
+- **Portrait layout for 1080×1920 wall displays.** The grid is now orientation-aware: in portrait, Clock and METAR share the top row, Weather spans the full width, Calendar takes the whole left column, and SBB + Holidays stack on the right. Landscape keeps the original 3-column kiosk layout. Previously the landscape grid was simply squeezed into portrait, leaving the SBB and Holidays columns two-thirds empty while Weather and Calendar were crammed into 260px.
+
+### Changed
+- **Widget scale uses CSS `zoom`** instead of `transform: scale()`. `transform` doesn't affect layout, so a scaled widget kept its unscaled box and either overflowed its column (scale > 1) or left a hole (scale < 1) — the calendar at 140% was spilling past its column edge. `zoom` is standardized (CSS Viewport Level 1) and supported in all evergreen browsers; content now grows inside its grid cell.
+- **METAR** lays its data out in two columns when the panel is wide enough (the portrait header row).
+- Weather requests now use the *effective* timezone (Settings panel) rather than only the `APP_TIMEZONE` env var, and "today" is taken from Open-Meteo's own local calendar instead of the server's UTC date.
+
+### Removed
+- **Background photo slideshow.** The `Background` component, `/api/backgrounds` route, `backgroundService`, `BACKGROUND_IMAGE_PATH` / `BACKGROUND_INTERVAL_SECONDS` env vars, the `backgroundIntervalSeconds` setting, the `./backgrounds` volume mount and the Slideshow section of the Settings panel are gone. A static dark gradient remains. An existing `backgroundIntervalSeconds` key in `data/settings.json` is ignored harmlessly.
+- Dead files from the pre‑0.3.0 two-container build: `backend/Dockerfile`, `frontend/Dockerfile`, `frontend/nginx.conf`. Only the root `Dockerfile` has been used since v0.3.0.
+
+---
+
 ## [0.5.0] — 2026-09-12
 
 Audit release: correctness fixes to the METAR widget, a full dependency

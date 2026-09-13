@@ -24,7 +24,6 @@ export interface SavedSettings {
   holidaysMaxItems?: number;
   rssFeeds?: string;
   rssItemDurationSeconds?: number;
-  backgroundIntervalSeconds?: number;
   metarIcao?: string;
   // Per-widget scale (1.0 = 100%)
   scaleClock?: number;
@@ -51,7 +50,6 @@ export interface EffectiveConfig {
   holidaysMaxItems: number;
   rssFeeds: string;
   rssItemDurationSeconds: number;
-  backgroundIntervalSeconds: number;
   metarIcao: string;
   // Per-widget scale (1.0 = 100%)
   scaleClock: number;
@@ -119,7 +117,6 @@ export function getEffectiveConfig(): EffectiveConfig {
     holidaysMaxItems:          s.holidaysMaxItems          ?? config.holidays.maxItems,
     rssFeeds:                  s.rssFeeds                  ?? config.rss.feeds,
     rssItemDurationSeconds:    s.rssItemDurationSeconds    ?? config.rss.itemDurationSeconds,
-    backgroundIntervalSeconds: s.backgroundIntervalSeconds ?? config.backgrounds.intervalSeconds,
     metarIcao:                 s.metarIcao                 ?? config.metar.icao,
     // Per-widget scale — news ticker defaults to 1.25 for better TV legibility
     scaleClock:       s.scaleClock       ?? 1.0,

@@ -69,7 +69,7 @@ export default function NewsTicker({ state, itemDurationMs = 10_000, scale = 1.2
   }, [index, items.length, itemDurationMs]);
 
   return (
-    <div className="panel-tight px-3 py-0 flex flex-col overflow-hidden" style={{ transform: `scale(${scale})`, transformOrigin: 'top left', width: `${100 / scale}%` }}>
+    <div className="panel-tight px-3 py-0 flex flex-col overflow-hidden" style={{ zoom: scale }}>
       {/* Main row */}
       <div className="flex items-center gap-3 py-2">
         {/* Static label */}

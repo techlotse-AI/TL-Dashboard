@@ -59,9 +59,8 @@ COPY --from=backend-build /build/dist ./dist
 # Frontend built assets — served at / by Express
 COPY --from=frontend-build /build/dist ./public
 
-# Mount points
-RUN mkdir -p /app/backgrounds /app/data && \
-    chown -R dashboard:dashboard /app/backgrounds /app/data
+# Persistent settings mount point
+RUN mkdir -p /app/data && chown -R dashboard:dashboard /app/data
 
 USER dashboard
 

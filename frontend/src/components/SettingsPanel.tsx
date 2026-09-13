@@ -117,7 +117,6 @@ export default function SettingsPanel({ open, initialWidget, config, onClose }: 
         holidaysMaxItems:          config.holidaysMaxItems,
         rssFeeds:                  config.rssFeeds,
         rssItemDurationSeconds:    config.rssItemDurationSeconds,
-        backgroundIntervalSeconds: config.backgroundIntervalSeconds,
         metarIcao:                 config.metarIcao,
         scaleClock:                config.scaleClock,
         scaleWeather:              config.scaleWeather,
@@ -335,17 +334,6 @@ export default function SettingsPanel({ open, initialWidget, config, onClose }: 
               value={form.scaleNewsTicker ?? 1.25}
               onChange={v => set('scaleNewsTicker', v)}
             />
-          </Section>
-
-          <Section id="backgrounds" title="Slideshow" icon="🖼">
-            <Field label="Seconds between photos">
-              <Input
-                type="number"
-                min={5} max={300}
-                value={form.backgroundIntervalSeconds ?? 15}
-                onChange={e => set('backgroundIntervalSeconds', parseInt(e.target.value, 10))}
-              />
-            </Field>
           </Section>
 
           <Section id="metar" title="METAR" icon="✈️">

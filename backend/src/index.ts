@@ -11,7 +11,6 @@ import transportRouter   from './routes/transport';
 import calendarRouter    from './routes/calendar';
 import holidaysRouter    from './routes/holidays';
 import rssRouter         from './routes/rss';
-import backgroundsRouter from './routes/backgrounds';
 import metarRouter       from './routes/metar';
 import settingsRouter    from './routes/settings';
 
@@ -41,7 +40,6 @@ app.use('/api/calendar',    calendarRouter);
 app.use('/api/holidays',    holidaysRouter);
 app.use('/api/rss',         rssRouter);
 
-app.use('/api/backgrounds', backgroundsRouter);
 app.use('/api/metar',      metarRouter);
 app.use('/api/settings',   settingsRouter);
 
@@ -55,10 +53,6 @@ app.get('/api/config', (_req, res) => {
 app.use('/api', (_req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
-
-// ── Static: background images ─────────────────────────────────────────────────
-// Served at /backgrounds/<filename> from the volume-mounted folder.
-app.use('/backgrounds', express.static(config.backgrounds.path, { maxAge: '1h' }));
 
 // ── Static: React SPA ─────────────────────────────────────────────────────────
 // In the Docker image the frontend build is copied to /app/public.

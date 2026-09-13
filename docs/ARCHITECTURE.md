@@ -2,14 +2,13 @@
 
 ## Overview
 
-TL-Dashboard runs as a **single Docker container**. The Node.js/Express backend serves everything: API routes, background images, and the compiled React SPA.
+TL-Dashboard runs as a **single Docker container**. The Node.js/Express backend serves everything: API routes and the compiled React SPA.
 
 ```
 Browser
   │
   └─► Express :3001
         ├─ /api/*          → API handlers (weather, transport, calendar…)
-        ├─ /backgrounds/*  → static files (volume-mounted photos)
         └─ /*              → React SPA (built assets + index.html fallback)
 ```
 
@@ -40,7 +39,6 @@ TL-Dashboard-Core/
 │   │   │   ├── calendar.ts
 │   │   │   ├── holidays.ts
 │   │   │   ├── rss.ts
-│   │   │   ├── backgrounds.ts
 │   │   │   ├── config.ts
 │   │   │   └── health.ts
 │   │   └── services/               Data fetching + in-memory caching
@@ -49,7 +47,6 @@ TL-Dashboard-Core/
 │   │       ├── calendarService.ts
 │   │       ├── holidayService.ts
 │   │       ├── rssService.ts
-│   │       └── backgroundService.ts
 │   ├── Dockerfile
 │   └── package.json
 ├── frontend/
@@ -65,16 +62,13 @@ TL-Dashboard-Core/
 │   │   │   ├── CalendarWidget.tsx
 │   │   │   ├── Holidays.tsx
 │   │   │   ├── NewsTicker.tsx
-│   │   │   ├── Background.tsx
 │   │   │   └── ErrorBoundary.tsx
 │   │   ├── hooks/
 │   │   │   └── useAutoRefresh.ts   Polling hook with exponential backoff
 │   │   └── types/
 │   │       └── index.ts            Shared TypeScript interfaces
-│   ├── nginx.conf                  Production nginx config
 │   ├── Dockerfile
 │   └── package.json
-├── backgrounds/                    Drop photos here (.jpg/.jpeg/.png/.webp)
 ├── docs/
 │   └── ARCHITECTURE.md            This file
 ├── docker-compose.yml              Deploy from DockerHub (production)
@@ -103,32 +97,32 @@ Each service module maintains a simple in-memory cache with a TTL. On cache miss
 | Calendar | Google Calendar API or iCal | Configurable; default 5 min |
 | Holidays | [Nager.Date](https://date.nager.at/) | Once per hour |
 | RSS | Any RSS/Atom feed | Configurable; default 10 min |
-| Backgrounds | Local filesystem | Every 5 min (file list refresh) |
 
 ---
 
 ## Frontend
 
-Built with React 18 + Vite + TypeScript + Tailwind CSS. All layout is in `App.tsx` using a CSS Grid:
+Built with React 19 + Vite 8 + TypeScript + Tailwind CSS 4. Layout is a CSS Grid with named areas (`.dash-grid` in `index.css`), placed from `App.tsx`. The grid is **orientation-aware** — the same widgets rearrange for a portrait wall display or a landscape kiosk:
 
 ```
-┌──────────────┬──────────────────────────┬──────────────┐
-│   Weather    │        SBB Board         │   Clock      │
-│              │  departures + commute    │              │
-│   Calendar   │                          │   Holidays   │
-└──────────────┴──────────────────────────┴──────────────┘
-└─────────────────────── RSS Ticker ───────────────────────┘
+Portrait (1080×1920)              Landscape (1920×1080)
+┌───────────┬───────────┐         ┌─────────┬───────────┬──────────┐
+│  Clock    │  METAR    │         │ Weather │   SBB     │  Clock   │
+├───────────┴───────────┤         ├─────────┤           ├──────────┤
+│  Weather  now·today·3d│         │Calendar │           │ Holidays │
+├───────────┬───────────┤         │         │           ├──────────┤
+│ Calendar  │  SBB      │         │         │           │  METAR   │
+│           ├───────────┤         └─────────┴───────────┴──────────┘
+│           │ Holidays  │         └──────── RSS Ticker ────────────┘
+└───────────┴───────────┘
+└───── RSS Ticker ──────┘
 ```
+
+Per-widget scale (Settings → Scale) is applied with CSS `zoom`, so enlarged content grows *inside* its grid cell rather than overflowing it. The Weather and METAR panels use container queries (`@container`) to switch between a wide row layout and a stacked one depending on the cell they land in.
 
 ### `useAutoRefresh` hook
 
 Fetches a URL on mount and then polls at the specified interval. Returns a typed `FetchState<T>` union (`idle | loading | success | error`). All widgets gracefully degrade to an error state when their data source is unavailable.
-
-### Background images
-
-Images are served as plain static files by nginx (`/backgrounds/` under nginx's html root). The `Background` component uses CSS `background-image` on a `<div>` — 404s are silently ignored and don't break the component. Transitions are a simple opacity fade.
-
----
 
 ## API Reference
 
@@ -138,12 +132,11 @@ All endpoints are served under `/api/`.
 |---|---|---|
 | `GET` | `/api/health` | Liveness check — returns `{ status: "ok" }` |
 | `GET` | `/api/config` | Non-sensitive runtime config for the frontend |
-| `GET` | `/api/weather` | Current conditions, hourly today, 3-day forecast |
+| `GET` | `/api/weather` | Current conditions, hourly for today + tomorrow, today's hi/lo + sun times, 3-day forecast |
 | `GET` | `/api/transport` | SBB departure board + commute options |
 | `GET` | `/api/calendar` | Upcoming Google Calendar events |
 | `GET` | `/api/holidays` | Upcoming Swiss public holidays |
 | `GET` | `/api/rss` | Latest RSS/Atom headlines |
-| `GET` | `/api/backgrounds` | JSON list of background image paths |
 
 ---
 

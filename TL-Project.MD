@@ -36,7 +36,8 @@ configuration UI is the standing proposal.
   that DockerHub repo does not exist yet. Production still runs the old
   `techlotse/tl-dashboard-core` image.
 - **v0.5.0 tag not yet pushed** — deliberately held until DockerHub works, so the
-  tagged release does not carry a failed build.
+  tagged release does not carry a failed build. **Tag commit `58b5f1d` explicitly**
+  (`git tag v0.5.0 58b5f1d`) — main has moved on since (portrait layout, 2026-09-13).
 - `MIGRATION.md` checklist — rename (§1) and Dependabot (§5) now done; the rest is the v1.0.0 gate.
 - No CVE gate in CI. Trivy CRITICAL-only scan still to add (`MIGRATION.md` §4).
 - `docker/build-push-action` still pinned to v6 (v7 available) — left for Dependabot
@@ -49,3 +50,4 @@ configuration UI is the standing proposal.
 - 2026-06-20 — Tracking file created. v0.3.3; last commit 2026-05-23. Stable; no documented next step — milestone definition is the gap.
 - 2026-06-22 → 2026-07-05 — 8 briefing runs, no change. v0.3.3, last commit `da711bb` (2026-05-23), next milestone undefined throughout.
 - 2026-09-12 — **Audit + release.** Repo had been frozen 112 days and the briefing had not run since 2026-07-05. Found PR #1 open and forgotten for 104 days — mergeable, all checks green. Rebased it, reverted its three GitHub Actions *downgrades* (it pinned qemu/login v4→v3 and metadata v6→v5; upstream latest are v4.3.0/v4.6.0/v6.2.0, so `main` was already correct), refreshed deps to current majors, and added the missing lockfiles, `npm ci`, and Dependabot. Cut **v0.5.0** (merged to `main`; tag held — see blockers). Also discovered the repo had already been moved to `techlotse-AI/TL-Dashboard`, which silently broke DockerHub publishing: `Build & Push` fails at login because the org secrets stayed behind. Renamed all image/URL refs to match. v1.0.0 deliberately deferred — `MIGRATION.md` work outstanding first.
+- 2026-09-13 — **Portrait layout + weather forecast + slideshow removal** (branch `feat/portrait-layout`, merged to `main`). Grid is now orientation-aware: on the 1080×1920 wall display Clock/METAR share the top row, Weather spans full width with a 9-slot hourly "Today" strip (2h steps, rolls into tomorrow) plus today's hi/lo and sun times, Calendar owns the left column, SBB + Holidays stack on the right. Widget scale switched from `transform: scale()` to CSS `zoom` so scaled content stays inside its cell. Background photo slideshow removed end-to-end (component, route, service, env vars, volume, settings section). Dead `backend/Dockerfile`, `frontend/Dockerfile`, `frontend/nginx.conf` removed. Verified with 1080×1920 and 1920×1080 headless-Chrome screenshots. Unreleased — v0.5.0 tag still pending at `58b5f1d`.

@@ -25,19 +25,20 @@ export default function Clock({ config, scale = 1, onSettingsOpen }: Props) {
   const dateStr = format(zoned, 'EEEE, d MMMM yyyy', { timeZone: tz });
 
   return (
-    <div className="flex flex-col items-end select-none w-full" style={{ transform: `scale(${scale})`, transformOrigin: 'top right', width: `${100 / scale}%` }}>
+    // @container: in a wide cell (the portrait header row) the time steps up to fill it.
+    <div className="clock-align flex flex-col select-none w-full @container" style={{ zoom: scale }}>
       {/* Time */}
       <div className="flex items-baseline gap-1">
-        <span className="text-7xl font-light tabular-nums tracking-tight leading-none text-white">
+        <span className="text-7xl @sm:text-8xl font-light tabular-nums tracking-tight leading-none text-white">
           {timeStr}
         </span>
-        <span className="text-3xl font-light tabular-nums text-white/40 w-[2.4rem]">
+        <span className="text-3xl @sm:text-4xl font-light tabular-nums text-white/40 w-[2.4rem] @sm:w-[3rem]">
           {secsStr}
         </span>
       </div>
       {/* Date + settings gear */}
       <div className="flex items-center gap-2 mt-1">
-        <div className="text-lg font-normal text-white/60 tracking-wide">
+        <div className="text-lg @sm:text-xl font-normal text-white/60 tracking-wide">
           {dateStr}
         </div>
         {onSettingsOpen && (

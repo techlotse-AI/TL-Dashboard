@@ -15,7 +15,6 @@ export interface AppConfig {
   holidaysMaxItems: number;
   rssFeeds: string;
   rssItemDurationSeconds: number;
-  backgroundIntervalSeconds: number;
   metarIcao: string;
   // Per-widget scale (1.0 = 100%, 1.25 = 125%, etc.)
   scaleClock: number;
@@ -74,6 +73,7 @@ export interface HourlyWeather {
   time: string;
   temperature: number;
   precipitation: number;
+  precipitationProbability: number;
   weatherCode: number;
   weatherDescription: string;
   weatherIcon: string;
@@ -93,7 +93,11 @@ export interface DailyWeather {
 }
 export interface WeatherData {
   current: CurrentWeather;
-  today: HourlyWeather[];
+  /** Hourly forecast for today and tomorrow (local time). */
+  hourly: HourlyWeather[];
+  /** Today's hi/lo and sunrise/sunset. */
+  todaySummary: DailyWeather;
+  /** Next 3 days (today excluded). */
   forecast: DailyWeather[];
   location: { lat: string; lon: string };
   fetchedAt: string;
@@ -199,12 +203,6 @@ export interface NewsItem {
 }
 export interface RssData {
   items: NewsItem[];
-  fetchedAt: string;
-}
-
-// Backgrounds
-export interface BackgroundData {
-  images: string[];
   fetchedAt: string;
 }
 
