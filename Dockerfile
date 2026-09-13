@@ -5,7 +5,7 @@ ARG BUILDPLATFORM
 ARG TARGETPLATFORM
 
 # ── Stage 1: Build frontend ──────────────────────────────────────────────────
-FROM --platform=$BUILDPLATFORM node:22-alpine AS frontend-build
+FROM --platform=$BUILDPLATFORM node:26-alpine AS frontend-build
 
 WORKDIR /build
 
@@ -21,7 +21,7 @@ ENV VITE_API_URL=$VITE_API_URL
 RUN npm run build
 
 # ── Stage 2: Build backend ───────────────────────────────────────────────────
-FROM --platform=$BUILDPLATFORM node:22-alpine AS backend-build
+FROM --platform=$BUILDPLATFORM node:26-alpine AS backend-build
 
 WORKDIR /build
 
@@ -36,7 +36,7 @@ RUN npm run build
 RUN npm ci --omit=dev --ignore-scripts
 
 # ── Stage 3: Production runtime ──────────────────────────────────────────────
-FROM --platform=$TARGETPLATFORM node:22-alpine AS runtime
+FROM --platform=$TARGETPLATFORM node:26-alpine AS runtime
 
 LABEL org.opencontainers.image.title="TL-Dashboard"
 LABEL org.opencontainers.image.version="0.6.0"
