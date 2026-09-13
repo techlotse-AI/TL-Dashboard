@@ -5,7 +5,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
-## [Unreleased]
+## [0.6.0] — 2026-09-13
+
+First tagged release. v0.5.0 was cut in git but never published an image (see *Fixed*), so this is the first version that ships to DockerHub as `techlotse/tl-dashboard`.
+
+### Fixed
+- **DockerHub publishing restored.** The repo's move from `techlotse` to `techlotse-AI` left the org-level `ORG_DOCKERHUB_USER` / `ORG_DOCKERHUB_KEY` secrets behind, so every `Build & Push` since 2026-05-31 failed at login. The workflow now uses `DOCKERHUB_USER` / `DOCKERHUB_TOKEN` under the new org.
+- **Image name no longer overridable by `DOCKER_REPO`.** A stale copy of that variable under the new org still held `techlotse/tl-dashboard-core`, so the first green build after the secrets fix pushed to the old name. The workflow now hardcodes `techlotse/tl-dashboard`; the variable can be deleted.
 
 ### Added
 - **Weather — hourly forecast for the day.** The widget now shows a "Today" strip of nine 2‑hour slots starting from the current hour (icon, temperature, rain probability), rolling into tomorrow in the evening, plus today's high/low and sunrise/sunset. The backend returns hourly data for today *and* tomorrow (`hourly`), a `todaySummary`, and a real precipitation probability for the current hour instead of a hard-coded `0`.
@@ -164,7 +170,8 @@ refresh onto current majors, and a reproducible, gated build pipeline.
 - Multi-arch Docker images (`linux/amd64`, `linux/arm64`) via GitHub Actions.
 - Full `.env` configuration with `.env.example` template.
 
-[0.5.0]: https://github.com/techlotse-AI/TL-Dashboard/releases/tag/v0.5.0
+[0.6.0]: https://github.com/techlotse-AI/TL-Dashboard/releases/tag/v0.6.0
+[0.5.0]: https://github.com/techlotse-AI/TL-Dashboard/commit/58b5f1d
 [0.3.3]: https://github.com/techlotse-AI/TL-Dashboard/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/techlotse-AI/TL-Dashboard/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/techlotse-AI/TL-Dashboard/compare/v0.3.0...v0.3.1

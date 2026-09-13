@@ -39,7 +39,7 @@ RUN npm ci --omit=dev --ignore-scripts
 FROM --platform=$TARGETPLATFORM node:22-alpine AS runtime
 
 LABEL org.opencontainers.image.title="TL-Dashboard"
-LABEL org.opencontainers.image.version="0.5.0"
+LABEL org.opencontainers.image.version="0.6.0"
 LABEL org.opencontainers.image.description="Family home dashboard"
 
 WORKDIR /app

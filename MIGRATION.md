@@ -7,18 +7,18 @@ Brings this repo in line with the shared TL engineering standard (see
 | Field | Value |
 |---|---|
 | Repo name | **TL-Dashboard** — **DONE.** Org also moved: `techlotse` → `techlotse-AI`. |
-| Docker image | `techlotse/tl-dashboard` — refs updated in v0.5.0, **not yet published** (DockerHub login failing). DockerHub org stays `techlotse`. |
-| Version target | **`1.0.0`** — gated on this checklist. Interim **`0.5.0`** released 2026-09-12 (audit backlog: deps, lockfiles, CI gate, Dependabot). |
+| Docker image | `techlotse/tl-dashboard` — **DONE**, first published with v0.6.0 (2026-09-13). DockerHub org stays `techlotse`. |
+| Version target | **`1.0.0`** — gated on this checklist. **`0.5.0`** (2026-09-12, audit backlog) and **`0.6.0`** (2026-09-13, layout + weather + slideshow removal) released on the way. |
 | Release channel | **stable** |
 | Live URL | https://mirror.int.techlotse.cloud/ |
 
-> **Status 2026-09-12:** v0.5.0 shipped and tagged `v0.5.0` — the first git tag this
+> **Status 2026-09-12:** v0.5.0 and v0.6.0 shipped; `v0.6.0` is the first git tag this
 > repo has ever had. v1.0.0 is deliberately deferred until the items below are done.
 
 ## 1. Rename (do first)
 1. ~~GitHub: rename `TL-Dashboard-Core` → `TL-Dashboard`.~~ **DONE** — and the org changed too (`techlotse` → `techlotse-AI`), which was not anticipated here. **Consequence: the org-level DockerHub secrets/vars did not follow the move, so `Build & Push` failed at login until 2026-09-13.** Fixed: new secrets `DOCKERHUB_USER` / `DOCKERHUB_TOKEN` added under `techlotse-AI` and the workflow switched to them. `DOCKER_REPO` is optional — the workflow falls back to `techlotse/tl-dashboard`.
 2. Local: rename folder + `git remote set-url origin <new-url>`.
-3. ~~Image → `techlotse/tl-dashboard` (update `docker-build-push.yml`, compose files, README).~~ **DONE in v0.5.0** — except the `DOCKER_REPO` org var, which must be set under `techlotse-AI`. The image is absent from DockerHub until CI publishes once.
+3. ~~Image → `techlotse/tl-dashboard` (update `docker-build-push.yml`, compose files, README).~~ **DONE.** Note: a stale `DOCKER_REPO` variable under `techlotse-AI` still held the old name and redirected the first green build to `tl-dashboard-core`; v0.6.0 hardcodes the image name in the workflow. **Delete the `DOCKER_REPO` variable** — it is no longer read.
 
 ## 2. Versioning
 - Set `VERSION` (present) to **`1.0.0`** (drop any `v` prefix).

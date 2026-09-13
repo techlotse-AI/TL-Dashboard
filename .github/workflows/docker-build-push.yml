@@ -6,8 +6,9 @@
 #   - Push of any version tags (v*.*.*)
 #   - Pull requests against main (build only — no push)
 #
-# Required GitHub organisation variables (Settings → Variables → Organisation):
-#   DOCKER_REPO   — DockerHub image name, e.g. techlotse/tl-dashboard
+# Image name is fixed below. (A DOCKER_REPO org variable used to override it —
+# a stale one pointing at the old name silently redirected releases, so the
+# indirection was removed in v0.6.0. Delete the variable if it still exists.)
 #
 # Required GitHub organisation secrets (Settings → Secrets → Organisation):
 #   DOCKERHUB_USER   — DockerHub username
@@ -28,7 +29,7 @@ on:
       - main
 
 env:
-  IMAGE: ${{ vars.DOCKER_REPO || 'techlotse/tl-dashboard' }}
+  IMAGE: techlotse/tl-dashboard
   # Opt in to Node.js 24 runtime for all actions (required from June 2026)
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
