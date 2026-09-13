@@ -5,6 +5,22 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [0.6.1] — 2026-09-13
+
+Dependency and CI maintenance — the first Dependabot round. All five dependency PRs merged (#3, #4, #5, #6, #7); the sixth (#2, Node 26) is superseded by a deliberate move to the Node 24 LTS line.
+
+### Changed
+- **Dependencies** — googleapis 173 → 178.1.1, node-ical 0.26.1 → 0.27.1, TypeScript 6.0.3 → 7.0.2 (both workspaces; the native compiler — `tsc` and `vite build` verified clean). `npm audit`: 0 findings on both workspaces.
+- **Node 22 → 24 LTS** for the Docker image and CI. Dependabot proposed 26 (#2), which is "Current" until October; an ignore rule for Node major tags keeps future bumps within 24.x.
+- **GitHub Actions** — checkout v4 → v7, setup-node v4 → v7, build-push-action v6 → v7.
+- **CI push trigger is `main` + tags only.** Every Dependabot branch was also getting a push-event run, which always failed at DockerHub login (Dependabot-triggered workflows can't read repository secrets). PRs keep their `pull_request` run.
+
+### Fixed
+- **node-ical 0.27 type break** — the package no longer exposes an `ical` namespace, so `component as ical.VEvent` failed to compile (this is why Dependabot's own CI on #3 was red). Now imports `VEvent` as a named type.
+- **`npm run dev` on TypeScript 7** — ts-node-dev crashes on startup under TS 7 (it reads the compiler API's `ts.sys`). The backend dev script now uses `tsx`, which doesn't depend on the TypeScript API.
+
+---
+
 ## [0.6.0] — 2026-09-13
 
 First tagged release. v0.5.0 was cut in git but never published an image (see *Fixed*), so this is the first version that ships to DockerHub as `techlotse/tl-dashboard`.
@@ -170,6 +186,7 @@ refresh onto current majors, and a reproducible, gated build pipeline.
 - Multi-arch Docker images (`linux/amd64`, `linux/arm64`) via GitHub Actions.
 - Full `.env` configuration with `.env.example` template.
 
+[0.6.1]: https://github.com/techlotse-AI/TL-Dashboard/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/techlotse-AI/TL-Dashboard/releases/tag/v0.6.0
 [0.5.0]: https://github.com/techlotse-AI/TL-Dashboard/commit/58b5f1d
 [0.3.3]: https://github.com/techlotse-AI/TL-Dashboard/compare/v0.3.2...v0.3.3
