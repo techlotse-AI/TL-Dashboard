@@ -55,7 +55,7 @@ function Skeleton() {
 
 export default function MetarWidget({ state, scale = 1, onSettingsOpen }: Props) {
   return (
-    <div className="panel p-4 flex flex-col gap-2.5" style={{ transform: `scale(${scale})`, transformOrigin: 'top left', width: `${100 / scale}%` }}>
+    <div className="panel p-4 h-full flex flex-col gap-2.5 @container" style={{ zoom: scale }}>
       {/* Header */}
       <div className="flex items-center gap-1.5">
         <PlaneTakeoff size={12} strokeWidth={2} className="text-white/40" />

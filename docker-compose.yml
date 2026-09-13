@@ -33,10 +33,6 @@ services:
       NODE_ENV: production
       PORT: 3001
     volumes:
-      # ── Background images ─────────────────────────────────────────────────
-      # Place your .jpg/.jpeg/.png/.webp photos in ./backgrounds/
-      - ./backgrounds:/app/backgrounds:ro
-
       # ── Persistent settings (UI-saved config survives restarts) ───────────
       - ./data:/app/data
 

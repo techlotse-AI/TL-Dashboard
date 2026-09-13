@@ -4,7 +4,7 @@
 [![Build](https://github.com/techlotse-AI/TL-Dashboard/actions/workflows/docker-build-push.yml/badge.svg)](https://github.com/techlotse-AI/TL-Dashboard/actions/workflows/docker-build-push.yml)
 [![Docker](https://img.shields.io/badge/DockerHub-techlotse%2Ftl--dashboard-blue?logo=docker)](https://hub.docker.com/r/techlotse/tl-dashboard)
 
-A self-hosted, Docker-based family home dashboard designed for a living-room wall display. Shows live weather, Swiss public transport departures, Google Calendar events, public holidays, a background photo slideshow, and a scrolling news ticker — all in one always-on screen.
+A self-hosted, Docker-based family home dashboard designed for a living-room wall display. Shows live weather, Swiss public transport departures, Google Calendar events, public holidays, an aviation METAR, and a scrolling news ticker — all in one always-on screen.
 
 ---
 
@@ -20,21 +20,7 @@ cp .env.example .env
 
 Open `.env` in a text editor and fill in your values (see [Configuration](#configuration) below). At minimum, set your coordinates (`WEATHER_LAT` / `WEATHER_LON`) and your SBB station name (`SBB_STATION_NAME`).
 
-### 2. Add background photos
-
-Place `.jpg`, `.jpeg`, `.png`, or `.webp` photos in the `./backgrounds/` folder inside the project directory:
-
-```
-TL-Dashboard/
-└── backgrounds/
-    ├── family-photo-1.jpg
-    ├── holiday-2024.jpg
-    └── ...
-```
-
-The slideshow rotates through all images automatically. If the folder is empty, a dark gradient is shown instead.
-
-### 3. Start the dashboard
+### 2. Start the dashboard
 
 ```bash
 docker compose up -d
@@ -123,13 +109,6 @@ Powered by [Nager.Date](https://date.nager.at/) — no API key required.
 | `RSS_MAX_ITEMS` | `20` | Maximum headlines per feed |
 | `RSS_ITEM_DURATION_SECONDS` | `10` | Seconds each headline is shown in the ticker |
 
-### Background Slideshow
-
-| Variable | Default | Description |
-|---|---|---|
-| `BACKGROUND_IMAGE_PATH` | `/app/backgrounds` | Container path for images (leave as-is) |
-| `BACKGROUND_INTERVAL_SECONDS` | `15` | Seconds between photo changes |
-
 ---
 
 ## Google Calendar Setup
@@ -210,8 +189,6 @@ docker compose up -d
 ---
 
 ## Troubleshooting
-
-**No background photos visible** — check that `.jpg`/`.jpeg`/`.png`/`.webp` files are present in `./backgrounds/`. The folder must exist even if empty.
 
 **Calendar shows "unavailable"** — verify your iCal URL or service account key path. Check backend logs: `docker compose logs backend`.
 

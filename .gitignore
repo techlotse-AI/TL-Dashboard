@@ -18,7 +18,7 @@ frontend/dist/
 !package-lock.json
 !tsconfig*.json
 
-# Backgrounds (user content)
+# Legacy slideshow photos (feature removed in 0.6.0) — keep old folders out of git
 backgrounds/
 
 # Editor

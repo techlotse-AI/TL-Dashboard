@@ -321,7 +321,7 @@ export async function fetchDepartures(): Promise<TransportData> {
     const boardRes = await axios.get(`${BASE_URL}/stationboard`, {
       params: {
         id: stationId,
-        limit: 20,
+        limit: 30,
         show_delays: 1,
       },
       timeout: 10000,

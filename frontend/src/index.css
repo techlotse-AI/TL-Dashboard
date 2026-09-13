@@ -12,7 +12,6 @@
 
   --animate-ticker: ticker 40s linear infinite;
   --animate-fade-in: fadeIn 0.6s ease-in-out;
-  --animate-slide-bg: slideBg 10s ease-in-out;
 
   @keyframes ticker {
     0%   { transform: translateX(100%); }
@@ -21,12 +20,6 @@
   @keyframes fadeIn {
     0%   { opacity: 0; }
     100% { opacity: 1; }
-  }
-  @keyframes slideBg {
-    0%   { opacity: 0; transform: scale(1.04); }
-    8%   { opacity: 1; transform: scale(1.02); }
-    92%  { opacity: 1; transform: scale(1.00); }
-    100% { opacity: 0; transform: scale(1.00); }
   }
 }
 
@@ -110,13 +103,70 @@
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Background crossfade */
-@keyframes bgFadeIn {
-  0%   { opacity: 0; }
-  15%  { opacity: 1; }
-  85%  { opacity: 1; }
-  100% { opacity: 0; }
+
+/* ── Dashboard layout grid ────────────────────────────────────────────────────
+   Orientation-aware. Widgets are placed by named grid areas from App.tsx and
+   fill their cell with `h-full`; per-widget scale is CSS `zoom`, so scaled
+   content grows inside the cell instead of overflowing it. */
+:root {
+  --dash-pad: clamp(10px, 1.2vw, 28px);
+  --dash-gap: clamp(10px, 2vw, 60px);
+  --dash-ticker-space: clamp(64px, 5vw, 92px);
 }
-.bg-slide {
-  animation: bgFadeIn var(--slide-duration, 12s) ease-in-out forwards;
+
+.dash-shell {
+  padding: var(--dash-pad) var(--dash-pad) var(--dash-ticker-space);
+}
+.dash-grid {
+  display: grid;
+  height: 100%;
+  min-height: 0;
+  gap: var(--dash-gap);
+}
+.dash-area-clock     { grid-area: clock; }
+.dash-area-weather   { grid-area: weather; }
+.dash-area-calendar  { grid-area: calendar; }
+.dash-area-transport { grid-area: transport; }
+.dash-area-holidays  { grid-area: holidays; }
+.dash-area-metar     { grid-area: metar; }
+
+.clock-align { align-items: flex-end; }
+
+/* Portrait — the 1080×1920 wall display. Two equal columns; Calendar takes the
+   full left height, Weather spans the top so its hourly strip has room. */
+@media (orientation: portrait) {
+  :root {
+    --dash-pad: 16px;
+    --dash-gap: 16px;
+    --dash-ticker-space: 92px;
+  }
+  .dash-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "clock    metar"
+      "weather  weather"
+      "calendar transport"
+      "calendar holidays";
+  }
+  .dash-area-holidays { max-height: 30vh; }
+  .clock-align { align-items: flex-start; }
+}
+
+/* Landscape — the original 3-column kiosk layout for 1920×1080 and wider. */
+@media (orientation: landscape) {
+  .dash-grid {
+    max-width: 1800px;
+    margin: 0 auto;
+    justify-content: center;
+    grid-template-columns: minmax(260px, 330px) minmax(420px, 560px) minmax(300px, 370px);
+    /* Weather spans two rows so the Clock row is sized by the Clock alone and
+       Holidays starts directly beneath it, however tall Weather gets. */
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "weather  transport clock"
+      "weather  transport holidays"
+      "calendar transport holidays"
+      "calendar transport metar";
+  }
 }

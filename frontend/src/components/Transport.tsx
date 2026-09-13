@@ -173,7 +173,7 @@ function Skeleton() {
 
 export default function Transport({ state, scale = 1, onSettingsOpen }: Props) {
   return (
-    <div className="panel p-4 h-full flex flex-col gap-3" style={{ transform: `scale(${scale})`, transformOrigin: 'top left', width: `${100 / scale}%` }}>
+    <div className="panel p-4 h-full flex flex-col gap-3" style={{ zoom: scale }}>
       <div className="flex items-center gap-1.5">
         <h2 className="text-xs font-semibold uppercase tracking-widest text-white/40 flex items-center gap-1.5 flex-1">
           <Route size={12} strokeWidth={2} />
@@ -216,7 +216,8 @@ export default function Transport({ state, scale = 1, onSettingsOpen }: Props) {
               {state.data.departures.length === 0 && (
                 <div className="text-white/40 text-sm text-center py-4">No departures found</div>
               )}
-              {state.data.departures.slice(0, state.data.commute ? 9 : 14).map((dep, i) => (
+              {/* No cap — the list container clips whatever doesn't fit the panel */}
+              {state.data.departures.map((dep, i) => (
                 <div
                   key={`${dep.departure}-${dep.destination}-${i}`}
                   className={`flex items-center gap-2 px-2 py-1 rounded-lg text-sm

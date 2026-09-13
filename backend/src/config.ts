@@ -95,13 +95,6 @@ export const config = {
     itemDurationSeconds: optionalNumber('RSS_ITEM_DURATION_SECONDS', 10),
   },
 
-  // ── Background Slideshow ─────────────────────────────────────────────────
-  backgrounds: {
-    path: optional('BACKGROUND_IMAGE_PATH', '/app/backgrounds'),
-    // Seconds between photo changes
-    intervalSeconds: optionalNumber('BACKGROUND_INTERVAL_SECONDS', 15),
-  },
-
   // ── METAR (Aviation Weather Center — no API key required) ────────────────
   metar: {
     icao: optional('METAR_ICAO', 'LSZH'),
