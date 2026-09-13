@@ -57,6 +57,11 @@ updates:
   # ── Docker base images ─────────────────────────────────────────────────────
   - package-ecosystem: docker
     directory: /
+    # Track the Node LTS line (24.x). Dependabot proposes the newest major tag
+    # (26 was "Current", not LTS) — ignore majors so bumps stay within the LTS.
+    ignore:
+      - dependency-name: node
+        update-types: ["version-update:semver-major"]
     schedule:
       interval: weekly
       day: monday

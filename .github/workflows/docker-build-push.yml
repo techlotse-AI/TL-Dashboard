@@ -2,7 +2,7 @@
 # CI — Lint, type-check, build, and push TL-Dashboard Docker image to DockerHub
 #
 # Triggers:
-#   - Push to any branch
+#   - Push to main
 #   - Push of any version tags (v*.*.*)
 #   - Pull requests against main (build only — no push)
 #
@@ -20,8 +20,10 @@ name: CI
 
 on:
   push:
+    # main only — Dependabot branches get a pull_request run instead. A push run
+    # on a Dependabot branch cannot see the DockerHub secrets and fails at login.
     branches:
-      - '**'
+      - main
     tags:
       - 'v*.*.*'
   pull_request:
@@ -45,7 +47,7 @@ jobs:
       - name: Setup Node 22
         uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: '24'
 
       - name: Install backend deps
         run: npm ci --ignore-scripts
